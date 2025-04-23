@@ -1,19 +1,22 @@
-﻿using ExpenseWebApp.Domain;
+﻿using ExpenseWebApp.DTO;
+using ExpenseWebApp.Infrastructure;
+
 
 namespace ExpenseWebApp.Services;
 
-public class ExpenditureService
+public class ExpenditureService : IExpenditureService
 {
-    public IEnumerable<Expenditure> GetExpenditures()
+    private readonly IExpenditureAPI _api;
+    
+    public ExpenditureService(IExpenditureAPI api)
     {
-        // Simulate fetching data from a database
-        var expenditures = new List<Expenditure>
-        {
-            Expenditure.CreateExpenditure(Guid.NewGuid(), "Groceries", 150.00m, DateTime.Now.AddDays(-1)),
-            Expenditure.CreateExpenditure(Guid.NewGuid(), "Utilities", 200.00m, DateTime.Now.AddDays(-2)),
-            Expenditure.CreateExpenditure(Guid.NewGuid(), "Rent", 1200.00m, DateTime.Now.AddDays(-3))
-        };
-
-        return expenditures;
+        _api = api;
+    }
+   
+    public async Task<IEnumerable<ExpenditureDto>> GetExpenditures()
+    {
+        var expenditures = await _api.GetExpendituresAsync();
+        return expenditures.OrderByDescending(x => x.Date);
     }
 }
+

@@ -1,6 +1,14 @@
 using ExpenseWebApp.Components;
+using ExpenseWebApp.Infrastructure;
+using ExpenseWebApp.Services;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<IExpenditureService, ExpenditureService>();
+
+builder.Services.AddRefitClient<IExpenditureAPI>()
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://localhost:8080"));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
