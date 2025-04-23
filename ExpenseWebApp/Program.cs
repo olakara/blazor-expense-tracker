@@ -1,4 +1,5 @@
 using ExpenseWebApp.Components;
+using ExpenseWebApp.DTO;
 using ExpenseWebApp.Infrastructure;
 using ExpenseWebApp.Services;
 using Refit;
@@ -7,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IExpenditureService, ExpenditureService>();
 
+var expenseApiOptions = builder.Configuration.GetSection("ExpenseApiOptions").Get<ExpenseApiOptions>();
 builder.Services.AddRefitClient<IExpenditureAPI>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri("http://localhost:8080"));
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(expenseApiOptions.BaseUrl))
+    .AddStandardResilienceHandler();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -25,8 +28,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
