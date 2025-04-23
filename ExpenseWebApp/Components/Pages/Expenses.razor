@@ -1,0 +1,51 @@
+﻿@page "/expenses"
+@using ExpenseWebApp.Domain
+@using ExpenseWebApp.Services
+@attribute [StreamRendering]
+
+<PageTitle>Expenses</PageTitle>
+<h1>Expenses</h1>
+
+@if (expenses == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Summary</th>
+            <th>Date</th>
+            <th>Amount</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var expense in expenses)
+        {
+            <tr>
+                <td>@expense.Description</td>
+                <td>@expense.Date.ToShortDateString()</td>
+                <td>@expense.Amount</td>
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="2"></td>
+            <td>@expenses.Sum(e => e.Amount) </td>
+            </tr>
+        </tfoot>
+    </table>
+}
+@code {
+    private Expenditure[]? expenses;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var service = new ExpenditureService();
+        expenses = service.GetExpenditures().ToArray();
+    }
+}

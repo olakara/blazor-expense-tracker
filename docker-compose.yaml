@@ -1,0 +1,7 @@
+﻿services:
+  expensewebapp:
+    image: expensewebapp
+    build:
+      context: .
+      dockerfile: ExpenseWebApp/Dockerfile
+
