@@ -9,9 +9,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IExpenditureService, ExpenditureService>();
 
 var expenseApiOptions = builder.Configuration.GetSection("ExpenseApiOptions").Get<ExpenseApiOptions>();
-builder.Services.AddRefitClient<IExpenditureAPI>()
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri(expenseApiOptions.BaseUrl))
-    .AddStandardResilienceHandler();
+if (expenseApiOptions != null)
+{
+    builder.Services.AddRefitClient<IExpenditureAPI>()
+        .ConfigureHttpClient(c => c.BaseAddress = new Uri(expenseApiOptions.BaseUrl))
+        .AddStandardResilienceHandler();
+}
+else
+{
+    throw new InvalidOperationException("ExpenseApiOptions section is missing in the configuration.");
+}
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

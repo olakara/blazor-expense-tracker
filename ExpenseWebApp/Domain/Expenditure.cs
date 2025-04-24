@@ -6,7 +6,7 @@ public class Expenditure
     public string Description { get; private set; }
     public decimal Amount { get; private set; }
     public DateTime Date { get; private set; }
-    public string Category { get; private set; }
+    public string Category { get; private set; } = string.Empty;
 
     private Expenditure(Guid id, string description, decimal amount, DateTime date)
     {

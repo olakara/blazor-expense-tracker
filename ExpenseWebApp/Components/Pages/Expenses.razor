@@ -9,36 +9,42 @@
 
 @if (_expenses == null)
 {
-    <p>
-        <em>Loading...</em>
-    </p>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
 }
 else
 {
     <table class="table table-striped table-hover table-bordered table-sm">
         <thead>
         <tr>
-            <th scope="col">Summary</th>
-            <th scope="col">Date</th>
-            <th scope="col">Amount</th>
-            <th scope="col"></th>
+            <th scope="col" class="col-4 text-center">Summary</th>
+            <th scope="col" class="col-1 text-center">Date</th>
+            <th scope="col" class="col-1 text-center">Amount</th>
+            <th scope="col" class="col-1"></th>
         </tr>
         </thead>
         <tbody>
         @foreach (var expense in _expenses)
         {
             <tr>
-                <td>@expense.Description</td>
-                <td>@expense.Date.ToShortDateString()</td>
-                <td>@expense.Amount.ToString("0.00")</td>
-                <td></td>
+                <td >@expense.Description</td>
+                <td class="text-center">@expense.Date.ToShortDateString()</td>
+                <td class="text-end">@expense.Amount.ToString("0.00")</td>
+                <td>
+                    <NavLink class="nav-link" href=@($"expense-view/{expense.Id}")>
+                        View
+                    </NavLink>
+                </td>
             </tr>
         }
         </tbody>
         <tfoot>
         <tr>
             <td colspan="2"></td>
-            <td class="">@_expenses.Sum(e => e.Amount) </td>
+            <td class="text-end">@_expenses.Sum(e => e.Amount) </td>
             </tr>
         </tfoot>
     </table>

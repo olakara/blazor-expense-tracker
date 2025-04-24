@@ -18,5 +18,11 @@ public class ExpenditureService : IExpenditureService
         var expenditures = await _api.GetExpendituresAsync();
         return expenditures.OrderByDescending(x => x.Date);
     }
+    
+    public async Task<ExpenditureDto> GetExpenditureById(Guid id)
+    {
+        var expense = await _api.GetExpenditureByIdAsync(id);
+        return expense;
+    }
 }
 

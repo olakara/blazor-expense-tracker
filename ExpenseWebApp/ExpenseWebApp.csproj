@@ -19,4 +19,10 @@
       <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Icons\AppIcon.razor" />
+      <_ContentIncludedByDefault Remove="Components\Icons\DashboardIcon.razor" />
+      <_ContentIncludedByDefault Remove="Components\Icons\ExpenseListIcon.razor" />
+    </ItemGroup>
+
 </Project>

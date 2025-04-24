@@ -1,0 +1,52 @@
+﻿@page "/expense-view/{Id:guid}"
+@using ExpenseWebApp.DTO
+@using ExpenseWebApp.Infrastructure
+
+<PageTitle>Expenses Details</PageTitle>
+<h1>Expenses Details</h1>
+
+@if (_expense == null)
+{
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    <EditForm FormName="expenseForm" Model="_expense">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <InputText id="description" class="form-control" @bind-Value="_expense.Description" readonly="true"/>
+        </div>
+        <div class="mb-3">
+            <label for="date" class="form-label">Date</label>
+            <InputDate id="date" class="form-control" @bind-Value="_expense.Date" readonly="true"/>
+        </div>
+        <div class="mb-3">
+            <label for="amount" class="form-label">Amount</label>
+            <InputNumber id="amount" class="form-control" @bind-Value="_expense.Amount" readonly="true"/>
+        </div>
+    </EditForm>
+    <NavLink href="expenses">
+        Back
+    </NavLink>
+}
+
+@code {
+    
+    [Parameter]
+    public Guid Id { get; set; }
+    private ExpenditureDto? _expense;
+    
+    [Inject]
+    private IExpenditureService ExpenditureService { get; set; } = default!;
+    
+    protected override async Task OnInitializedAsync()
+    {        
+        _expense = await ExpenditureService.GetExpenditureById(Id);
+    }
+}
