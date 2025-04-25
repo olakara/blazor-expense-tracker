@@ -1,10 +1,10 @@
 ﻿
 using ExpenseWebApp.DTO;
 
-namespace ExpenseWebApp.Infrastructure;
+namespace ExpenseWebApp.Interfaces;
 
 public interface IExpenditureService
 {
     Task<IEnumerable<ExpenditureDto>> GetExpenditures();
-    Task<ExpenditureDto> GetExpenditureById(Guid id);
+    
 }

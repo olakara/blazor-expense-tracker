@@ -1,12 +1,13 @@
 using ExpenseWebApp.Components;
 using ExpenseWebApp.DTO;
 using ExpenseWebApp.Infrastructure;
-using ExpenseWebApp.Services;
+using ExpenseWebApp.Interfaces;
 using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddScoped<IExpenditureService, ExpenditureService>();
+builder.Services.AddScoped<IExpenditureCache, ExpenditureCacheService>();
 
 var expenseApiOptions = builder.Configuration.GetSection("ExpenseApiOptions").Get<ExpenseApiOptions>();
 if (expenseApiOptions != null)
@@ -19,6 +20,13 @@ else
 {
     throw new InvalidOperationException("ExpenseApiOptions section is missing in the configuration.");
 }
+
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
+
+builder.Services.AddHybridCache();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
@@ -42,3 +50,4 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+

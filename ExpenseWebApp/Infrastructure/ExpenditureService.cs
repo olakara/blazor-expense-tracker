@@ -1,8 +1,7 @@
 ﻿using ExpenseWebApp.DTO;
-using ExpenseWebApp.Infrastructure;
+using ExpenseWebApp.Interfaces;
 
-
-namespace ExpenseWebApp.Services;
+namespace ExpenseWebApp.Infrastructure;
 
 public class ExpenditureService : IExpenditureService
 {

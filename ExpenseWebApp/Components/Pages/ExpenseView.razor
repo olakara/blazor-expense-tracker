@@ -1,6 +1,6 @@
 ﻿@page "/expense-view/{Id:guid}"
 @using ExpenseWebApp.DTO
-@using ExpenseWebApp.Infrastructure
+@using ExpenseWebApp.Interfaces
 
 <PageTitle>Expenses Details</PageTitle>
 <h1>Expenses Details</h1>
@@ -43,10 +43,10 @@ else
     private ExpenditureDto? _expense;
     
     [Inject]
-    private IExpenditureService ExpenditureService { get; set; } = default!;
+    private IExpenditureCache ExpenditureCacheService { get; set; } = default!;
     
     protected override async Task OnInitializedAsync()
     {        
-        _expense = await ExpenditureService.GetExpenditureById(Id);
+        _expense = await ExpenditureCacheService.GetExpenditureById(Id);
     }
 }
