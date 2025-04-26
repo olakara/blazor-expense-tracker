@@ -1,7 +1,87 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Expense Dashboard</PageTitle>
 
-<h1>Expense Dashboard!</h1>
+<div class="container-fluid">
+    <!-- Stats Cards Row -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Spent</h5>
+                    <h3 class="card-text">$0.00</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Avg Daily Spend</h5>
+                    <h3 class="card-text">$0.00</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Highest Expense</h5>
+                    <h3 class="card-text">$0.00</h3>
+                </div>
+            </div>
+        </div>
+    </div>
 
-Welcome to your new app.
+    <!-- Charts Row -->
+    <div class="row mb-4">
+        <!-- Monthly Trend Chart -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Trend</h5>
+                    <div id="monthlyTrendChart" style="height: 300px;">
+                        <!-- Line chart will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Category Breakdown</h5>
+                    <div id="categoryPieChart" style="height: 300px;">
+                        <!-- Pie chart will be rendered here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Recent Expenses Table -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Recent Expenses</h5>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- Table data will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
