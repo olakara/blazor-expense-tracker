@@ -1,12 +1,13 @@
 ﻿@page "/expenses"
-
 @using ExpenseWebApp.DTO
-@using ExpenseWebApp.Infrastructure
 @using ExpenseWebApp.Interfaces
-@attribute [StreamRendering]
+@rendermode InteractiveServer
+@inject IJSRuntime JsRuntime
 
-<PageTitle>Expenses</PageTitle>
-<h1>Expenses</h1>
+
+<PageTitle>Expense List</PageTitle>
+
+<h3>Expense List</h3>
 
 @if (_expenses == null)
 {
@@ -18,6 +19,12 @@
 }
 else
 {
+    <div class="d-flex pt-2 pb-2 flex-row-reverse">
+        <button class="btn btn-primary" @onclick="ExportExpenses">
+            <i class="bi bi-download"></i> Download
+        </button>
+    </div>
+    
     <table class="table table-striped table-hover table-bordered table-sm">
         <thead>
         <tr>
@@ -59,5 +66,24 @@ else
     protected override async Task OnInitializedAsync()
     {        
         _expenses = (await ExpenditureService.GetExpenditures()).ToArray();
+    }
+
+
+    private async Task ExportExpenses()
+    {
+        // Create CSV content
+        var csvHeader = "Description,Date,Amount";
+        var csvContent = string.Join(Environment.NewLine, 
+            new[] { csvHeader }.Concat(
+                _expenses!.Select(e => $"{StringHelper.EscapeCsvField(e.Description)},{e.Date.ToShortDateString()},{e.Amount:0.00}")
+            )
+        );
+    
+        // Convert to bytes
+        var bytes = System.Text.Encoding.UTF8.GetBytes(csvContent);
+    
+        // Trigger download using JS interop
+        var fileName = $"Expenses_{DateTime.Now:yyyyMMdd_HHmmss}.csv";
+        await JsRuntime.InvokeVoidAsync("downloadFileFromStream", fileName, bytes);
     }
 }
